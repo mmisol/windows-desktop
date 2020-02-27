@@ -75,4 +75,7 @@
   <ItemGroup>
     <Compile Remove="ViewModels\OldUnusedViewModel.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WcfClientLib\WcfClientLib.csproj" />
+  </ItemGroup>
 </Project>

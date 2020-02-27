@@ -16,12 +16,12 @@ namespace BeanTraderClient.Services
     public sealed class TradingService : IDisposable
     {
         private readonly AsyncLock clientSyncLock = new AsyncLock();
-        private BeanTraderServiceClient client;
+        private BeanTraderServerNS.BeanTraderServiceClient client;
 
         private CancellationTokenSource CancellationSource { get; }
         private BeanTraderServiceClientFactory ClientFactory { get; }
 
-        private async Task<BeanTraderServiceClient> GetOrOpenClientAsync()
+        private async Task<BeanTraderServerNS.BeanTraderServiceClient> GetOrOpenClientAsync()
         {
             // If the client does not exist or is in a bad state, re-create it
             if (client == null || client.State == CommunicationState.Closed || client.State == CommunicationState.Faulted)
@@ -34,7 +34,7 @@ namespace BeanTraderClient.Services
                         {
                             var newClient = ClientFactory.GetServiceClient();
                             SetClientCredentials(newClient);
-                            newClient.Open();
+                            await newClient.OpenAsync();
                             client = newClient;
                         }
                     }
@@ -79,7 +79,7 @@ namespace BeanTraderClient.Services
                 return await client.CancelTradeOfferAsync(id);
             });
 
-        public Task<Trader> GetCurrentTraderInfoAsync() =>
+        public Task<BeanTraderServerNS.Trader> GetCurrentTraderInfoAsync() =>
             SafeServiceCallAsync(async () =>
             {
                 var client = await GetOrOpenClientAsync();
@@ -93,7 +93,7 @@ namespace BeanTraderClient.Services
                 return await client.GetTraderNamesAsync(ids);
             });
 
-        public Task<TradeOffer[]> ListenForTradeOffersAsync() =>
+        public Task<BeanTraderServerNS.TradeOffer[]> ListenForTradeOffersAsync() =>
             SafeServiceCallAsync(async () =>
             {
                 var client = await GetOrOpenClientAsync();
@@ -114,7 +114,7 @@ namespace BeanTraderClient.Services
                 await client.LogoutAsync();
             });
 
-        public Task<Guid> OfferTradeAsync(TradeOffer trade) =>
+        public Task<Guid> OfferTradeAsync(BeanTraderServerNS.TradeOffer trade) =>
             SafeServiceCallAsync(async () =>
             {
                 var client = await GetOrOpenClientAsync();
@@ -169,7 +169,7 @@ namespace BeanTraderClient.Services
             }
         }
 
-        private static void SetClientCredentials(BeanTraderServiceClient client)
+        private static void SetClientCredentials(BeanTraderServerNS.BeanTraderServiceClient client)
         {
             client.ClientCredentials.ClientCertificate.Certificate = GetCertificate();
             client.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;

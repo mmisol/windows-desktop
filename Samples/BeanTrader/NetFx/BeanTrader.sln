@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.28407.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeanTraderServer", "BeanTraderServer\BeanTraderServer.csproj", "{C7FE70DF-EF5A-4FED-91BE-9F6488C17135}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeanTraderClient", "BeanTraderClient\BeanTraderClient.csproj", "{995E758F-D656-4D2C-B679-69B81E58672F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeanTraderClient", "BeanTraderClient\BeanTraderClient.csproj", "{995E758F-D656-4D2C-B679-69B81E58672F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeanTraderCommon", "BeanTraderInterfaces\BeanTraderCommon.csproj", "{41C7E011-840E-44AB-9B5B-CAF6E7B7DE65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfClientLib", "WcfClientLib\WcfClientLib.csproj", "{11920B43-6A1D-4AE2-854D-97B2E4F333C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{41C7E011-840E-44AB-9B5B-CAF6E7B7DE65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41C7E011-840E-44AB-9B5B-CAF6E7B7DE65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41C7E011-840E-44AB-9B5B-CAF6E7B7DE65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11920B43-6A1D-4AE2-854D-97B2E4F333C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11920B43-6A1D-4AE2-854D-97B2E4F333C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11920B43-6A1D-4AE2-854D-97B2E4F333C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11920B43-6A1D-4AE2-854D-97B2E4F333C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

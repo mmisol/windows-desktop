@@ -10,7 +10,7 @@ namespace BeanTraderClient.ViewModels
 
         public BeanDictionary BeansOffered { get; } = new BeanDictionary();
         public BeanDictionary BeansAsked { get; } = new BeanDictionary();
-        public event Func<TradeOffer, Task> CreateTradeHandler;
+        public event Func<BeanTraderServerNS.TradeOffer, Task> CreateTradeHandler;
 
         public NewTradeOfferViewModel(Func<Task> closeDialogFunc)
         {
@@ -21,7 +21,7 @@ namespace BeanTraderClient.ViewModels
         {
             await closeDialogFunc().ConfigureAwait(false);
 
-            await (CreateTradeHandler?.Invoke(new TradeOffer
+            await (CreateTradeHandler?.Invoke(new BeanTraderServerNS.TradeOffer
             {
                 Asking = BeansAsked,
                 Offering = BeansOffered

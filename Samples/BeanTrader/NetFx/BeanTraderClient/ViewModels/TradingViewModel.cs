@@ -21,11 +21,11 @@ namespace BeanTraderClient.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private Trader trader;
+        private BeanTraderServerNS.Trader trader;
         private string statusText;
         private Brush statusBrush;
         private string userName;
-        private IList<TradeOffer> tradeOffers;
+        private IList<BeanTraderServerNS.TradeOffer> tradeOffers;
 
         private IDialogCoordinator DialogCoordinator { get; }
         private TradingService TradingService { get; }
@@ -73,7 +73,7 @@ namespace BeanTraderClient.ViewModels
             TradeOffers = null;
         }
 
-        public Trader CurrentTrader
+        public BeanTraderServerNS.Trader CurrentTrader
         {
             get => trader;
             set
@@ -109,7 +109,7 @@ namespace BeanTraderClient.ViewModels
                 return sellerId.ToString();
             }
 
-            if (!traderNames.TryGetValue(sellerId, out string traderName))
+            if (!traderNames.TryGetValue(sellerId, out var traderName))
             {
                 var names = await TradingService.GetTraderNamesAsync(new Guid[] { sellerId }).ConfigureAwait(false);
 
@@ -135,7 +135,7 @@ namespace BeanTraderClient.ViewModels
         }
 
 #pragma warning disable CA2227 // Collection properties should be read only
-        public IList<TradeOffer> TradeOffers
+        public IList<BeanTraderServerNS.TradeOffer> TradeOffers
 #pragma warning restore CA2227 // Collection properties should be read only
         {
             get => tradeOffers;
@@ -172,7 +172,7 @@ namespace BeanTraderClient.ViewModels
         {
             // As an example, do work asynchronously with Delegate.BeginInvoke to demonstrate
             // how such calls can be ported to .NET Core.
-            Func<Task<Trader>> userInfoRetriever = TradingService.GetCurrentTraderInfoAsync;
+            Func<Task<BeanTraderServerNS.Trader>> userInfoRetriever = TradingService.GetCurrentTraderInfoAsync;
             userInfoRetriever.BeginInvoke(result =>
             {
                 var task = userInfoRetriever.EndInvoke(result).ConfigureAwait(false);
@@ -196,13 +196,13 @@ namespace BeanTraderClient.ViewModels
         {
             // Different async pattern just for demonstration's sake
             return TradingService.ListenForTradeOffersAsync()
-                .ContinueWith(async offersTask =>
+                .ContinueWith(new Action<Task<BeanTraderServerNS.TradeOffer[]>>(async offersTask =>
                 {
-                    var tradeOffers = await offersTask ?? Array.Empty<TradeOffer>();
+                    var tradeOffers = await offersTask ?? Array.Empty<BeanTraderServerNS.TradeOffer>();
                     var sellerIds = tradeOffers?.Select(t => t.SellerId);
                     traderNames = new ConcurrentDictionary<Guid, string>(await TradingService.GetTraderNamesAsync(sellerIds.ToArray()));
-                    TradeOffers = new ObservableCollection<TradeOffer>(tradeOffers);
-                }, CancellationToken.None, TaskContinuationOptions.NotOnFaulted, TaskScheduler.Default);
+                    TradeOffers = new ObservableCollection<BeanTraderServerNS.TradeOffer>(tradeOffers);
+                }), CancellationToken.None, TaskContinuationOptions.NotOnFaulted, TaskScheduler.Default);
         }
 
         private void RemoveTraderOffer(Guid offerId)
@@ -214,7 +214,7 @@ namespace BeanTraderClient.ViewModels
             }
         }
 
-        private void AddTradeOffer(TradeOffer offer)
+        private void AddTradeOffer(BeanTraderServerNS.TradeOffer offer)
         {
             if (!tradeOffers.Any(o => o.Id == offer.Id))
             {
@@ -274,7 +274,7 @@ namespace BeanTraderClient.ViewModels
             await DialogCoordinator.ShowMetroDialogAsync(this, newTradeDialog).ConfigureAwait(false);
         }
 
-        private async Task CreateTradeOfferAsync(TradeOffer tradeOffer)
+        private async Task CreateTradeOfferAsync(BeanTraderServerNS.TradeOffer tradeOffer)
         {
             if (await TradingService.OfferTradeAsync(tradeOffer).ConfigureAwait(false) != Guid.Empty)
             {
