@@ -133,6 +133,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Resource Include="BeanTrader.ico" />
+    <Content Include="PortabilityAnalyzerResults\ApiPortAnalysis.html" />
     <Content Include="Resources\Themes\Default.Accent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -159,6 +160,8 @@
     <None Include="BeanTrader.pfx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="PortabilityAnalyzerResults\ApiPortAnalysis.json" />
+    <None Include="PortabilityAnalyzerResults\ApiPortAnalysis.xlsx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -201,5 +204,6 @@
       <Version>5.0.0</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
